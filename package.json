@@ -1,0 +1,51 @@
+{
+	"name": "hfc-brothers-fellowship",
+	"description": "A web application for managing hfc brothers database",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "concurrently \"pnpm lint:es\" \"pnpm lint:prettier\"",
+		"lint:es": "next lint",
+		"lint:prettier": "prettier . --write"
+	},
+	"dependencies": {
+		"@hookform/resolvers": "^3.9.0",
+		"@radix-ui/react-icons": "^1.3.0",
+		"@radix-ui/react-label": "^2.1.0",
+		"@radix-ui/react-slot": "^1.1.0",
+		"class-variance-authority": "^0.7.0",
+		"clsx": "^2.1.1",
+		"lucide-react": "^0.447.0",
+		"next": "14.2.3",
+		"react": "^18",
+		"react-dom": "^18",
+		"react-hook-form": "^7.53.0",
+		"tailwind-merge": "^2.5.2",
+		"tailwindcss-animate": "^1.0.7",
+		"zod": "^3.23.8"
+	},
+	"devDependencies": {
+		"@ianvs/prettier-plugin-sort-imports": "^4.2.1",
+		"@types/node": "^20",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"autoprefixer": "^10.4.20",
+		"concurrently": "^8.2.2",
+		"eslint": "^8",
+		"eslint-config-next": "14.2.3",
+		"eslint-import-resolver-typescript": "^3.6.1",
+		"eslint-plugin-boundaries": "^4.2.1",
+		"eslint-plugin-react-hooks": "^4.6.2",
+		"eslint-plugin-react-refresh": "^0.4.7",
+		"postcss": "^8.4.47",
+		"prettier": "^3.2.5",
+		"prettier-plugin-tailwindcss": "^0.6.8",
+		"tailwindcss": "^3.4.13",
+		"ts-node": "^10.9.2",
+		"typescript": "^5",
+		"typescript-eslint": "^7.10.0"
+	}
+}
