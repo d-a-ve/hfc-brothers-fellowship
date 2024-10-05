@@ -1,19 +1,18 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import * as LabelPrimitive from "@radix-ui/react-label"
-import { Slot } from "@radix-ui/react-slot"
-import {
-  Controller,
-  ControllerProps,
-  FieldPath,
-  FieldValues,
-  FormProvider,
-  useFormContext,
-} from "react-hook-form"
+import * as LabelPrimitive from "@radix-ui/react-label";
+import { Slot } from "@radix-ui/react-slot";
+import * as React from "react";
+import { Controller, ControllerProps, FieldPath, FieldValues, FormProvider, useFormContext } from "react-hook-form";
 
-import { cn } from "@shared/lib/utils"
-import { Label } from "@shared/ui/label"
+
+
+import { cn } from "@shared/lib/utils";
+import { Label } from "@shared/ui/label";
+
+
+
+
 
 const Form = FormProvider
 
@@ -73,16 +72,16 @@ const FormItemContext = React.createContext<FormItemContextValue>(
 )
 
 const FormItem = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
-  const id = React.useId()
+	HTMLDivElement,
+	React.HTMLAttributes<HTMLDivElement>
+>(({ className, id: idProp, ...props }, ref) => {
+  const id = React.useId();
 
-  return (
-    <FormItemContext.Provider value={{ id }}>
-      <div ref={ref} className={cn("space-y-2", className)} {...props} />
-    </FormItemContext.Provider>
-  )
+	return (
+		<FormItemContext.Provider value={{ id: idProp || id }}>
+			<div ref={ref} className={cn("space-y-2", className)} {...props} />
+		</FormItemContext.Provider>
+	)
 })
 FormItem.displayName = "FormItem"
 
