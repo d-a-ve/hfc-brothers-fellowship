@@ -7,4 +7,4 @@ export {
 } from "./auth"
 export { createAdminClient, createSessionClient } from "./client"
 export { getFile, getFileUrlForDownload, uploadFile } from "./storage"
-export { createDocument } from "./db"
+export { createDocument, getDocumentByUserId } from "./db"

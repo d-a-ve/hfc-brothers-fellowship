@@ -24,5 +24,5 @@ export async function getFileUrlForDownload(fileId: string) {
 
 export async function getFile(fileId: string) {
 	const { storage } = await createSessionClient()
-	return await storage.getFile(config.BUCKET_ID, fileId)
+	return await storage.getFilePreview(config.BUCKET_ID, fileId)
 }
