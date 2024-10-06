@@ -1,3 +1,5 @@
+import { Suspense } from "react"
+
 import { redirect } from "next/navigation"
 
 import { getLoggedInUser } from "@shared/lib/api"
@@ -13,7 +15,9 @@ export async function RegisterPage() {
 	return (
 		<div className="space-y-6 px-6">
 			<h1>Join the Happy Family Brothers' Fellowship</h1>
-			<RegisterForm />
+			<Suspense fallback={<p>Loading...</p>}>
+				<RegisterForm />
+			</Suspense>
 		</div>
 	)
 }
