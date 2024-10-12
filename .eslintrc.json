@@ -120,6 +120,17 @@
 							[
 								"shared",
 								{
+									"segment": "model"
+								}
+							]
+						],
+						"allow": "index.ts"
+					},
+					{
+						"target": [
+							[
+								"shared",
+								{
 									"segment": "ui" // ("ui"|"constants")
 								}
 							]

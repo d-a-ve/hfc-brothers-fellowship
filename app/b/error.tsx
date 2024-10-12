@@ -2,7 +2,6 @@
 
 import { Button } from "@shared/ui/button"
 import Link from "next/link"
-import { useEffect } from "react"
 
 export default function DashboardErrorBoundary({
 	error,
@@ -11,6 +10,7 @@ export default function DashboardErrorBoundary({
 	error: Error & { digest?: string }
 	// reset: () => void
 }) {
+    console.log(error);
 	return <div className="min-h-svh flex items-center justify-center gap-4 flex-col max-w-[40ch] mx-auto text-center">
     <h1 className="font-semibold text-4xl pb-3">Oops, An Error Occured.</h1>
     <p>My brother, I am sorry, an error occured on this page. Please sign in and try again.</p>

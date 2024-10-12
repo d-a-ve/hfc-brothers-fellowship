@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 
 import { cn } from "@shared/lib/utils"
-import { useToast } from "@shared/model/use-toast"
+import { useToast } from "@shared/model"
 import { BrotherData } from "@shared/types"
 import { Button } from "@shared/ui/button"
 import {
@@ -106,14 +106,20 @@ export function UserProfileForm({
 	const isLoading = userProfileForm.formState.isSubmitting
 
 	const onSubmit = async (data: ProfileForm) => {
-		const { arePhoneAndWhatsappNumbersTheSame, ...dataToSend } = data
-		const newData = {} as BrotherData
-
-		for (let key in dataToSend) {
-			if (dataToSend[key] !== user[key]) {
-				newData[key] = dataToSend[key]
+		const { arePhoneAndWhatsappNumbersTheSame, ...rest } = data
+		const dataToSend: {
+			[k: string]: string
+		} = rest
+		console.log(arePhoneAndWhatsappNumbersTheSame)
+		const newData = Object.entries(dataToSend).reduce((total, [key, value]) => {
+			// @ts-expect-error keys cannot be literal types but they are in user
+			if (user[key] !== value) {
+				return { ...total, [key]: value }
 			}
-		}
+
+			return total
+		}, {})
+		console.log(newData)
 
 		const updatedUser = await updateUserProfileAction(docId, newData)
 		if (updatedUser && updatedUser.error) {

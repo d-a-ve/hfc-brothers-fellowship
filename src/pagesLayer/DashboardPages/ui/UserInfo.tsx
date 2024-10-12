@@ -6,7 +6,7 @@ import { ChangeEvent, useState } from "react"
 import Image from "next/image"
 
 import { getFileUrl } from "@shared/lib/utils"
-import { useToast } from "@shared/model/use-toast"
+import { useToast } from "@shared/model"
 import { BrotherData } from "@shared/types"
 import { Spinner } from "@shared/ui/spinner"
 

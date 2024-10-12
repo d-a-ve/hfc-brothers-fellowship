@@ -11,7 +11,7 @@ export type BrotherData = {
 	homeAddress?: string
 	nearestLandmark?: string
 	occupation?: string
-	oneThing?: string
+	oneThingPeopleDoNotKnowAboutYou?: string
 	currentLevel?:
 		| ""
 		| "100"

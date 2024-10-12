@@ -11,6 +11,7 @@ export function AppLink({ className, href, children, ...props }: LinkProps) {
 		<Link
 			href={href}
 			className={cn("text-primary underline hover:no-underline", className)}
+      {...props}
 		>
 			{children}
 		</Link>

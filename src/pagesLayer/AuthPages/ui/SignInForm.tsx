@@ -8,7 +8,7 @@ import { z } from "zod"
 
 import { createSessionForEmailOnly, signUpWithEmailOnly } from "@shared/lib/api"
 import { cn } from "@shared/lib/utils"
-import { useToast } from "@shared/model/use-toast"
+import { useToast } from "@shared/model"
 import { Button } from "@shared/ui/button"
 import {
 	Card,

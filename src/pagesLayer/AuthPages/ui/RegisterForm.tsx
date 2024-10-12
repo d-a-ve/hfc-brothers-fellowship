@@ -1,42 +1,29 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { Checkbox } from "@/shared/ui/checkbox"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/shared/ui/select"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { z } from "zod"
 
-import {
-	createDocument,
-	createSessionForEmailOnly,
-	signUpWithEmailOnly,
-	updateLoggedInUserName,
-	uploadFile,
-} from "@shared/lib/api"
-import { cn } from "@shared/lib/utils"
-import { useToast } from "@shared/model/use-toast"
-import { Button } from "@shared/ui/button"
-import {
-	Form,
-	FormControl,
-	FormDescription,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@shared/ui/form"
-import { Input } from "@shared/ui/input"
 
-import { OTPForm } from "./OTPForm"
+import { Checkbox } from "@/shared/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { z } from "zod";
+
+
+
+import { createDocument, createSessionForEmailOnly, signUpWithEmailOnly, updateLoggedInUserName, uploadFile } from "@shared/lib/api";
+import { cn } from "@shared/lib/utils";
+import { useToast } from "@shared/model";
+import { Button } from "@shared/ui/button";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@shared/ui/form";
+import { Input } from "@shared/ui/input";
+
+
+
+import { OTPForm } from "./OTPForm";
+
 
 const registerFormSchema = z
 	.object({
@@ -164,7 +151,8 @@ export function RegisterForm() {
 								occupation: values.occupation,
 								phoneNumber: values.phoneNumber,
 								whatsappNumber: values.whatsappNumber,
-								oneThing: values.oneThingPeopleDoNotKnowAboutYou,
+								oneThingPeopleDoNotKnowAboutYou:
+									values.oneThingPeopleDoNotKnowAboutYou,
 								status: values.status,
 								currentLevel: values.currentLevel,
 								department: values.department,
