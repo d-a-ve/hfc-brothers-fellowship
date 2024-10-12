@@ -8,7 +8,6 @@ import { RegisterForm } from "./RegisterForm"
 
 export async function RegisterPage() {
 	const user = await getLoggedInUser().catch((e) => console.log(e.message))
-	console.log(user)
 
 	if (user) redirect("/b")
 

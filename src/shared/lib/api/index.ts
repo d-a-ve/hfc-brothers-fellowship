@@ -6,5 +6,5 @@ export {
 	updateLoggedInUserName,
 } from "./auth"
 export { createAdminClient, createSessionClient } from "./client"
+export { createDocument, getDocumentByUserId, updateDocumentById } from "./db"
 export { getFile, getFileUrlForDownload, uploadFile } from "./storage"
-export { createDocument, getDocumentByUserId } from "./db"

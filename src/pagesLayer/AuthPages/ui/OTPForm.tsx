@@ -29,6 +29,7 @@ type CompleteRegiserForm = z.infer<typeof completeRegiserFormSchema>
 export function OTPForm({
 	submitHandler,
 	email,
+	hideLabel = false
 }: {
 	submitHandler: (
 		data: CompleteRegiserForm,
@@ -39,6 +40,7 @@ export function OTPForm({
 		},
 	) => void
 	email: string
+	hideLabel?: boolean;
 }) {
 	const [isLoading, setIsLoading] = useState(false)
 	const completeRegisterForm = useForm<CompleteRegiserForm>({
@@ -55,6 +57,7 @@ export function OTPForm({
 			loadingFalse: () => setIsLoading(false),
 		})
 	}
+	
 	return (
 		<Form {...completeRegisterForm}>
 			<form
@@ -66,7 +69,7 @@ export function OTPForm({
 					name="otp"
 					render={({ field }) => (
 						<FormItem id="otp-field">
-							<FormLabel>One-Time Password</FormLabel>
+							{!hideLabel && <FormLabel>One-Time Password</FormLabel>}
 							<FormDescription>
 								Please enter the one-time password sent to your email @{email}.
 							</FormDescription>

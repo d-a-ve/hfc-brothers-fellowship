@@ -1,11 +1,22 @@
 "use client"
 
-import { Dispatch, SetStateAction } from "react"
-import { UseFormReturn } from "react-hook-form"
+import { useForm } from "react-hook-form"
+
+import { Checkbox } from "@/shared/ui/checkbox"
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/shared/ui/select"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
 
 import { cn } from "@shared/lib/utils"
+import { useToast } from "@shared/model/use-toast"
+import { BrotherData } from "@shared/types"
 import { Button } from "@shared/ui/button"
-import { Checkbox } from "@shared/ui/checkbox"
 import {
 	Form,
 	FormControl,
@@ -16,41 +27,116 @@ import {
 	FormMessage,
 } from "@shared/ui/form"
 import { Input } from "@shared/ui/input"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@shared/ui/select"
 
-import { RegisterForm, useUserForm } from "../model/useUserForm"
+import { updateUserProfileAction } from "../model/actions"
 
-export function UserForm({
-	submitHandler,
+const profileFormSchema = z
+	.object({
+		name: z.string().min(1, "Your name is required."),
+		email: z.string().email(),
+		schoolAddress: z.string().min(1, "Your hostel address is required."),
+		homeAddress: z.string().optional(),
+		hostelName: z.string().min(1, "Hostel name is required."),
+		nearestLandmark: z.string().optional(),
+		occupation: z.string().optional(),
+		phoneNumber: z
+			.string()
+			.refine((val) => val.length === 11, "Phone number must be 11 digits.")
+			.refine(
+				(val) => /^\d{11}$/.test(val),
+				"Phone number should only contain numeric values. Please check your input",
+			),
+		whatsappNumber: z
+			.string()
+			.refine((val) => val.length === 11, "Whatsapp number must be 11 digits.")
+			.refine(
+				(val) => /^\d{11}$/.test(val),
+				"Whatsapp number should only contain numeric values. Please check your input",
+			),
+		arePhoneAndWhatsappNumbersTheSame: z.boolean(),
+		oneThingPeopleDoNotKnowAboutYou: z.string().optional(),
+		status: z
+			.enum(["", "student", "graduate"])
+			.refine(
+				(val) => val.length !== 0,
+				"Please select your current academic status.",
+			),
+		currentLevel: z
+			.enum(["", "100", "200", "300", "400", "500", "600", "700", "800"])
+			.optional(),
+		department: z.string().optional(),
+	})
+	.superRefine((args, ctx) => {
+		if (args.status === "student") {
+			if (!args.currentLevel) {
+				return ctx.addIssue({
+					code: "custom",
+					path: ["currentLevel"],
+					message: "Please select your level",
+				})
+			}
+			if (!args.department) {
+				return ctx.addIssue({
+					code: "custom",
+					path: ["department"],
+					message: "Please enter your department in Uniben.",
+				})
+			}
+		}
+	})
+
+type ProfileForm = z.infer<typeof profileFormSchema>
+
+export function UserProfileForm({
+	user,
+	docId,
 }: {
-	submitHandler: (
-		data: RegisterForm,
-		registerForm: UseFormReturn<RegisterForm>,
-		isLoading: boolean,
-		setIsLoading: Dispatch<SetStateAction<boolean>>,
-	) => void
+	user: BrotherData
+	docId: string
 }) {
-	const { registerForm, isLoading, setIsLoading, setProilePicture } =
-		useUserForm()
+	const userProfileForm = useForm<ProfileForm>({
+		resolver: zodResolver(profileFormSchema),
+		values: {
+			...user,
+			arePhoneAndWhatsappNumbersTheSame: false,
+		},
+	})
+	const { toast } = useToast()
 
-	const onSubmit = (data: RegisterForm) => {
-		submitHandler(data, registerForm, isLoading, setIsLoading)
+	const isLoading = userProfileForm.formState.isSubmitting
+
+	const onSubmit = async (data: ProfileForm) => {
+		const { arePhoneAndWhatsappNumbersTheSame, ...dataToSend } = data
+		const newData = {} as BrotherData
+
+		for (let key in dataToSend) {
+			if (dataToSend[key] !== user[key]) {
+				newData[key] = dataToSend[key]
+			}
+		}
+
+		const updatedUser = await updateUserProfileAction(docId, newData)
+		if (updatedUser && updatedUser.error) {
+			toast({
+				title: "Your profile failed to update.",
+				description: updatedUser.error,
+				variant: "destructive",
+			})
+		}
+
+		toast({
+			description: "Your profile has been updated successfully.",
+		})
 	}
-	
+
 	return (
-		<Form {...registerForm}>
+		<Form {...userProfileForm}>
 			<form
-				onSubmit={registerForm.handleSubmit(onSubmit)}
+				onSubmit={userProfileForm.handleSubmit(onSubmit)}
 				className="space-y-4"
 			>
 				<FormField
-					control={registerForm.control}
+					control={userProfileForm.control}
 					name="name"
 					render={({ field }) => (
 						<FormItem>
@@ -63,7 +149,7 @@ export function UserForm({
 					)}
 				/>
 				<FormField
-					control={registerForm.control}
+					control={userProfileForm.control}
 					name="email"
 					render={({ field }) => (
 						<FormItem>
@@ -76,7 +162,7 @@ export function UserForm({
 					)}
 				/>
 				<FormField
-					control={registerForm.control}
+					control={userProfileForm.control}
 					name="phoneNumber"
 					render={({ field: { onChange, ...field } }) => (
 						<FormItem>
@@ -87,15 +173,15 @@ export function UserForm({
 									onChange={(e) => {
 										onChange(e)
 										if (
-											registerForm.getValues(
+											userProfileForm.getValues(
 												"arePhoneAndWhatsappNumbersTheSame",
 											)
 										) {
-											registerForm.setValue(
+											userProfileForm.setValue(
 												"whatsappNumber",
 												e.currentTarget.value,
 											)
-											registerForm.trigger("whatsappNumber")
+											userProfileForm.trigger("whatsappNumber")
 										}
 									}}
 								/>
@@ -105,7 +191,7 @@ export function UserForm({
 					)}
 				/>
 				<FormField
-					control={registerForm.control}
+					control={userProfileForm.control}
 					name="arePhoneAndWhatsappNumbersTheSame"
 					render={({ field }) => (
 						<FormItem className="flex items-center space-x-2 space-y-0">
@@ -114,11 +200,11 @@ export function UserForm({
 									checked={field.value}
 									onCheckedChange={(e) => {
 										field.onChange(e)
-										registerForm.setValue(
+										userProfileForm.setValue(
 											"whatsappNumber",
-											registerForm.getValues("phoneNumber"),
+											userProfileForm.getValues("phoneNumber"),
 										)
-										registerForm.trigger("whatsappNumber")
+										userProfileForm.trigger("whatsappNumber")
 									}}
 								/>
 							</FormControl>
@@ -127,7 +213,7 @@ export function UserForm({
 					)}
 				/>
 				<FormField
-					control={registerForm.control}
+					control={userProfileForm.control}
 					name="whatsappNumber"
 					render={({ field }) => (
 						<FormItem>
@@ -140,7 +226,7 @@ export function UserForm({
 					)}
 				/>
 				<FormField
-					control={registerForm.control}
+					control={userProfileForm.control}
 					name="hostelName"
 					render={({ field }) => (
 						<FormItem>
@@ -153,7 +239,7 @@ export function UserForm({
 					)}
 				/>
 				<FormField
-					control={registerForm.control}
+					control={userProfileForm.control}
 					name="schoolAddress"
 					render={({ field }) => (
 						<FormItem>
@@ -166,7 +252,7 @@ export function UserForm({
 					)}
 				/>
 				<FormField
-					control={registerForm.control}
+					control={userProfileForm.control}
 					name="nearestLandmark"
 					render={({ field }) => (
 						<FormItem>
@@ -187,7 +273,7 @@ export function UserForm({
 					)}
 				/>
 				<FormField
-					control={registerForm.control}
+					control={userProfileForm.control}
 					name="homeAddress"
 					render={({ field }) => (
 						<FormItem>
@@ -208,7 +294,7 @@ export function UserForm({
 					)}
 				/>
 				<FormField
-					control={registerForm.control}
+					control={userProfileForm.control}
 					name="occupation"
 					render={({ field }) => (
 						<FormItem>
@@ -229,7 +315,7 @@ export function UserForm({
 					)}
 				/>
 				<FormField
-					control={registerForm.control}
+					control={userProfileForm.control}
 					name="oneThingPeopleDoNotKnowAboutYou"
 					render={({ field }) => (
 						<FormItem>
@@ -247,44 +333,7 @@ export function UserForm({
 					)}
 				/>
 				<FormField
-					control={registerForm.control}
-					name="profilePicture"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Profile Picture</FormLabel>
-							<FormDescription>
-								This picture will also be used during birthday wishes and
-								shoutouts.
-							</FormDescription>
-							<FormControl>
-								<Input
-									onBlur={field.onBlur}
-									value={field.value}
-									disabled={field.disabled}
-									name={field.name}
-									ref={field.ref}
-									type="file"
-									onChange={(e) => {
-										const files = e.currentTarget.files
-										if (!files) {
-											return registerForm.setError("profilePicture", {
-												message: "No file/picture selected",
-											})
-										}
-
-										registerForm.clearErrors("profilePicture")
-
-										field.onChange(e)
-										setProilePicture(files[0])
-									}}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={registerForm.control}
+					control={userProfileForm.control}
 					name="status"
 					render={({ field }) => (
 						<FormItem>
@@ -304,10 +353,10 @@ export function UserForm({
 						</FormItem>
 					)}
 				/>
-				{registerForm.watch("status") === "student" && (
+				{userProfileForm.watch("status") === "student" && (
 					<>
 						<FormField
-							control={registerForm.control}
+							control={userProfileForm.control}
 							name="currentLevel"
 							render={({ field }) => (
 								<FormItem>
@@ -337,7 +386,7 @@ export function UserForm({
 							)}
 						/>
 						<FormField
-							control={registerForm.control}
+							control={userProfileForm.control}
 							name="department"
 							render={({ field }) => (
 								<FormItem>
@@ -352,10 +401,12 @@ export function UserForm({
 					</>
 				)}
 				<div className="pt-2">
-					<Button size={"lg"} className="relative w-full">
-						<span className={cn(isLoading && "opacity-0")}>
-							Join the Fellowship
-						</span>
+					<Button
+						size={"lg"}
+						className="relative w-full"
+						disabled={!userProfileForm.formState.isDirty || isLoading}
+					>
+						<span className={cn(isLoading && "opacity-0")}>Update Details</span>
 						<span
 							className={cn(
 								"absolute inset-0 flex items-center justify-center",
@@ -365,7 +416,7 @@ export function UserForm({
 								},
 							)}
 						>
-							Loading
+							Loading...
 						</span>
 					</Button>
 				</div>
