@@ -18,6 +18,7 @@ import {
 	FormMessage,
 } from "@shared/ui/form"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@shared/ui/input-otp"
+import { Spinner } from "@shared/ui/spinner"
 
 const completeRegiserFormSchema = z.object({
 	otp: z.string().min(6, {
@@ -29,7 +30,7 @@ type CompleteRegiserForm = z.infer<typeof completeRegiserFormSchema>
 export function OTPForm({
 	submitHandler,
 	email,
-	hideLabel = false
+	hideLabel = false,
 }: {
 	submitHandler: (
 		data: CompleteRegiserForm,
@@ -40,7 +41,7 @@ export function OTPForm({
 		},
 	) => void
 	email: string
-	hideLabel?: boolean;
+	hideLabel?: boolean
 }) {
 	const [isLoading, setIsLoading] = useState(false)
 	const completeRegisterForm = useForm<CompleteRegiserForm>({
@@ -57,7 +58,7 @@ export function OTPForm({
 			loadingFalse: () => setIsLoading(false),
 		})
 	}
-	
+
 	return (
 		<Form {...completeRegisterForm}>
 			<form
@@ -91,14 +92,11 @@ export function OTPForm({
 				/>
 				<Button type="submit" className="relative w-full max-w-40">
 					<span className={cn(isLoading && "opacity-0")}>Submit</span>
-					<span
-						className={cn("absolute inset-0 flex items-center justify-center", {
-							"opacity-0": !isLoading,
-							"opacity-100": isLoading,
-						})}
-					>
-						Loading...
-					</span>
+					{isLoading && (
+						<span className="absolute inset-0 flex items-center justify-center">
+							<Spinner />
+						</span>
+					)}
 				</Button>
 			</form>
 		</Form>
