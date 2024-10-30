@@ -1,8 +1,19 @@
+import fluid, { extract, fontSize, screens } from "fluid-tailwind"
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	darkMode: ["class"],
-	content: ["./app/**/*.{js,ts,jsx,tsx,mdx}", "./src/**/*.{js,ts,jsx,tsx,mdx}"],
+	content: {
+		files: ["./app/**/*.{js,ts,jsx,tsx,mdx}", "./src/**/*.{js,ts,jsx,tsx,mdx}"],
+		extract,
+	},
 	theme: {
+		screens,
+		fontSize,
+		/** @type {import('fluid-tailwind').FluidThemeConfig} */
+    fluid: ({ theme }) => ({
+      defaultScreens: ['25rem', theme('screens.lg')]
+    }),
 		extend: {
 			borderRadius: {
 				lg: "var(--radius)",
@@ -62,5 +73,5 @@ module.exports = {
 			},
 		},
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [require("tailwindcss-animate"), fluid],
 }

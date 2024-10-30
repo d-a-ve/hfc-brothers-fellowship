@@ -3,6 +3,8 @@ import type { ReactNode } from "react"
 
 import "@app/globals.css"
 
+import { ProgressBar, ProgressBarProvider } from "@shared/ui/link"
+import { Logo } from "@shared/ui/logo"
 import { Toaster } from "@shared/ui/toaster"
 
 export const metadata: Metadata = {
@@ -16,9 +18,17 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className="p-6">
-				{children}
-				<Toaster />
+			<body>
+				<ProgressBarProvider>
+					<ProgressBar />
+					<div className="mx-auto max-w-[1440px] py-6 ~px-5/9">
+						<header className="pb-8">
+							<Logo />
+						</header>
+						{children}
+						<Toaster />
+					</div>
+				</ProgressBarProvider>
 			</body>
 		</html>
 	)
