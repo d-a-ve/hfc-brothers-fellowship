@@ -1,4 +1,5 @@
 import { getLoggedInUser } from "@shared/lib/api"
+import { MaxContainer, PaddingInlineContainer } from "@shared/ui/container"
 import { Redirect } from "@shared/ui/redirect"
 
 import { RegisterForm } from "./RegisterForm"
@@ -9,9 +10,11 @@ export async function RegisterPage() {
 	if (user) return <Redirect href="/b" />
 
 	return (
-		<div className="space-y-6 px-6">
-			<h1>Join the Happy Family Brothers' Fellowship</h1>
-			<RegisterForm />
-		</div>
+		<MaxContainer>
+			<PaddingInlineContainer className="space-y-6">
+				<h1>Join the Happy Family Brothers' Fellowship</h1>
+				<RegisterForm />
+			</PaddingInlineContainer>
+		</MaxContainer>
 	)
 }

@@ -3,6 +3,7 @@ import type { ReactNode } from "react"
 
 import "@app/globals.css"
 
+import { MaxContainer, PaddingInlineContainer } from "@shared/ui/container"
 import { ProgressBar, ProgressBarProvider } from "@shared/ui/link"
 import { Logo } from "@shared/ui/logo"
 import { Toaster } from "@shared/ui/toaster"
@@ -21,13 +22,15 @@ export default function RootLayout({
 			<body>
 				<ProgressBarProvider>
 					<ProgressBar />
-					<div className="mx-auto max-w-[1440px] py-6 ~px-5/9">
+					<MaxContainer className="py-6">
 						<header className="pb-8">
-							<Logo />
+							<PaddingInlineContainer>
+								<Logo />
+							</PaddingInlineContainer>
 						</header>
 						{children}
 						<Toaster />
-					</div>
+					</MaxContainer>
 				</ProgressBarProvider>
 			</body>
 		</html>
