@@ -105,7 +105,7 @@ export function HomePage() {
 				<footer className="space-y-5 pb-6 text-center ~pt-12/16">
 					<p>Brought to you by:</p>
 					<Logo className="mx-auto" />
-					<div className="space-y-2 text-lg">
+					<div className="space-y-2 ~text-sm/lg">
 						<p>
 							No, 59 Ekhorutomwen Street, Newton Road, Ekosodin, Benin City.
 						</p>
