@@ -1,6 +1,7 @@
 import { Button } from "@shared/ui/button"
 import { PaddingInlineContainer } from "@shared/ui/container"
 import { AppLink } from "@shared/ui/link"
+import LinkButton from "@shared/ui/link-button"
 import { Logo } from "@shared/ui/logo"
 
 export function HomePage() {
@@ -23,14 +24,13 @@ export function HomePage() {
 								spiritually, physically, academically, and professionally.
 							</p>
 							<div className="pt-2">
-								<Button asChild className="w-full max-w-[200px]" size={"lg"}>
-									<AppLink
-										className="no-underline hover:no-underline"
-										href={"/register"}
-									>
-										Join Us Today!
-									</AppLink>
-								</Button>
+								<LinkButton
+									className="w-full max-w-[200px]"
+									size={"lg"}
+									href="/register"
+								>
+									Join Us Today!
+								</LinkButton>
 							</div>
 						</div>
 					</section>

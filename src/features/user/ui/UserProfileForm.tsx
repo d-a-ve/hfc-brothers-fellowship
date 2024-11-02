@@ -90,9 +90,11 @@ type ProfileForm = z.infer<typeof profileFormSchema>
 export function UserProfileForm({
 	user,
 	docId,
+	pathToRevalidate,
 }: {
 	user: BrotherData
 	docId: string
+	pathToRevalidate: string
 }) {
 	const userProfileForm = useForm<ProfileForm>({
 		resolver: zodResolver(profileFormSchema),
@@ -121,7 +123,11 @@ export function UserProfileForm({
 		}, {})
 		console.log(newData)
 
-		const updatedUser = await updateUserProfileAction(docId, newData)
+		const updatedUser = await updateUserProfileAction(
+			docId,
+			newData,
+			pathToRevalidate,
+		)
 		if (updatedUser && updatedUser.error) {
 			toast({
 				title: "Your profile failed to update.",

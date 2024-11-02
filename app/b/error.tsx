@@ -12,9 +12,9 @@ export default function DashboardErrorBoundary({
 }) {
 	console.log(error)
 	return (
-		<div className="mx-auto flex min-h-svh max-w-[40ch] flex-col items-center justify-center gap-4 text-center">
-			<h1 className="pb-3 text-4xl font-semibold">Oops, An Error Occured.</h1>
-			<p>
+		<div className="mx-auto flex min-h-[calc(100dvh_-_200px)] max-w-[40ch] flex-col items-center justify-center gap-4 text-center">
+			<h1 className="pb-3 ~text-2xl/4xl font-semibold">Oops, An Error Occured.</h1>
+			<p className="~text-sm/base">
 				My brother, I am sorry, an error occured on this page. Please sign in
 				and try again.
 			</p>
@@ -23,7 +23,7 @@ export default function DashboardErrorBoundary({
 					Sign in
 				</AppLink>
 			</Button>
-			<p className="text-sm">
+			<p className="~text-xs/sm">
 				If the error persists, please drop a message on the WhatsApp group.
 				Thank you.
 			</p>
