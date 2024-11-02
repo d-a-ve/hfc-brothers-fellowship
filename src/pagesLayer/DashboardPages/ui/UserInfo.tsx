@@ -2,7 +2,7 @@
 
 import { Book, Mail, School } from "lucide-react"
 
-import { UserProfileImage } from "@features/user"
+import { UserProfileImage } from "@entities/user"
 import { BrotherData } from "@shared/types"
 
 export function UserInfo({

@@ -7,7 +7,7 @@ import { MaxContainer, PaddingInlineContainer } from "@shared/ui/container"
 import { ProgressBar, ProgressBarProvider } from "@shared/ui/link"
 import { Logo } from "@shared/ui/logo"
 import { Toaster } from "@shared/ui/toaster"
-import { AdminGoToPageButton, AdminWelcomeMsg } from "@features/admin"
+import { AdminGoToPageButton, AdminWelcomeMsg } from "@entities/admin"
 
 export const metadata: Metadata = {
 	title: "HFC Brothers' Fellowship",

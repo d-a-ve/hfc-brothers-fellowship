@@ -5,7 +5,7 @@ import "@shared/ui/dialog"
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 import * as React from "react"
 
-import { UserProfileForm, UserProfileImage } from "@features/user"
+import { UserProfileForm, UserProfileImage } from "@entities/user"
 import { useMediaQuery } from "@shared/model"
 import { BrotherData } from "@shared/types"
 import { Button } from "@shared/ui/button"
@@ -46,7 +46,11 @@ const testUser: BrotherData = {
 	department: "test",
 }
 
-export function AdminBrotherListItemContent({ trigger }: {trigger: React.ReactNode}) {
+export function AdminBrotherListItemContent({
+	trigger,
+}: {
+	trigger: React.ReactNode
+}) {
 	const [state, setState] = React.useState<"view" | "edit" | "delete" | null>(
 		null,
 	)
@@ -58,9 +62,7 @@ export function AdminBrotherListItemContent({ trigger }: {trigger: React.ReactNo
 				open={state !== null}
 				onOpenChange={(open) => setState(open ? "view" : null)}
 			>
-				<DialogTrigger asChild>
-					{trigger}
-				</DialogTrigger>
+				<DialogTrigger asChild>{trigger}</DialogTrigger>
 				<DialogContent>
 					<DialogHeader className="flex-row items-center justify-between gap-3 space-y-0 pt-6">
 						<div>
@@ -71,7 +73,7 @@ export function AdminBrotherListItemContent({ trigger }: {trigger: React.ReactNo
 								</VisuallyHidden>
 							</DialogDescription>
 						</div>
-						{state === 'view' && (
+						{state === "view" && (
 							<div className="flex items-center gap-2">
 								<Button size={"sm"} onClick={() => setState("edit")}>
 									Edit
@@ -102,7 +104,7 @@ export function AdminBrotherListItemContent({ trigger }: {trigger: React.ReactNo
 							/>
 							<Button
 								size={"lg"}
-								onClick={() => setState('view')}
+								onClick={() => setState("view")}
 								variant={"outline"}
 								className="w-full"
 							>
@@ -119,7 +121,7 @@ export function AdminBrotherListItemContent({ trigger }: {trigger: React.ReactNo
 							<div className="flex items-center gap-4">
 								<Button
 									size={"lg"}
-									onClick={() => setState('view')}
+									onClick={() => setState("view")}
 									variant={"outline"}
 									className="w-full"
 								>
@@ -136,7 +138,7 @@ export function AdminBrotherListItemContent({ trigger }: {trigger: React.ReactNo
 							</div>
 						</div>
 					)}
-					{state === 'view' && <ViewBrotherDetails />}
+					{state === "view" && <ViewBrotherDetails />}
 				</DialogContent>
 			</Dialog>
 		)
@@ -147,16 +149,14 @@ export function AdminBrotherListItemContent({ trigger }: {trigger: React.ReactNo
 			open={state !== null}
 			onOpenChange={(open) => setState(open ? "view" : null)}
 		>
-			<DrawerTrigger asChild>
-				{trigger}
-			</DrawerTrigger>
+			<DrawerTrigger asChild>{trigger}</DrawerTrigger>
 			<DrawerContent>
 				<DrawerHeader className="text-left">
 					<DrawerTitle>Brother X Details</DrawerTitle>
 					<DrawerDescription>
 						<VisuallyHidden>This is the details for Brother X</VisuallyHidden>
 					</DrawerDescription>
-					{state === 'view' && (
+					{state === "view" && (
 						<div className="flex items-center gap-2">
 							<Button
 								size={"sm"}
@@ -201,11 +201,11 @@ export function AdminBrotherListItemContent({ trigger }: {trigger: React.ReactNo
 							</p>
 						</div>
 					)}
-					{state === 'view' && <ViewBrotherDetails />}
+					{state === "view" && <ViewBrotherDetails />}
 				</div>
 				<DrawerFooter className="pt-4">
 					{state === "edit" && (
-						<Button variant="outline" onClick={() => setState('view')}>
+						<Button variant="outline" onClick={() => setState("view")}>
 							Cancel Edit
 						</Button>
 					)}
@@ -214,7 +214,7 @@ export function AdminBrotherListItemContent({ trigger }: {trigger: React.ReactNo
 							<Button
 								variant="outline"
 								className="grow"
-								onClick={() => setState('view')}
+								onClick={() => setState("view")}
 							>
 								Cancel
 							</Button>
@@ -227,7 +227,7 @@ export function AdminBrotherListItemContent({ trigger }: {trigger: React.ReactNo
 							</Button>
 						</div>
 					)}
-					{state === 'view' && (
+					{state === "view" && (
 						<DrawerClose asChild>
 							<Button variant="outline">Cancel</Button>
 						</DrawerClose>

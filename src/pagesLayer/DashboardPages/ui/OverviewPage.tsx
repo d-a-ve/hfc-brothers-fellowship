@@ -1,5 +1,4 @@
-import { UserProfileForm } from "@/features/user"
-
+import { UserProfileForm } from "@entities/user"
 import { getDocumentByUserId, getLoggedInUser } from "@shared/lib/api"
 import { MaxContainer, PaddingInlineContainer } from "@shared/ui/container"
 

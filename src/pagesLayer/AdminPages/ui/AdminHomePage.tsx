@@ -1,4 +1,4 @@
-import { AdminBrotherListItemContent } from "@features/admin"
+import { AdminBrotherListItemContent } from "@features/admin-brothers-list"
 import { Button } from "@shared/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@shared/ui/card"
 import { MaxContainer, PaddingInlineContainer } from "@shared/ui/container"
