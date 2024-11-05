@@ -176,6 +176,7 @@ export function AppLink({
 	className,
 	scroll,
 	variant,
+	onClick,
 	...props
 }: LinkProps) {
 	const router = useRouter()
@@ -186,6 +187,7 @@ export function AppLink({
 	) => {
 		if (isModifiedEvent(e)) return
 		e.preventDefault()
+		onClick && onClick(e)
 		startTransition(() => {
 			startProgress()
 			if (replace) {

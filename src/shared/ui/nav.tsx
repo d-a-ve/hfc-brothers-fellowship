@@ -32,7 +32,7 @@ export function Nav({
 			</button>
 			<nav
 				className={cn(
-					"max-md:absolute max-md:left-0 max-md:right-0 max-md:top-14 max-md:grid max-md:grid-rows-[0fr] max-md:overflow-hidden max-md:bg-accent max-md:transition-[grid-template-rows_padding] max-md:duration-300 max-md:~px-5/9",
+					"max-md:absolute max-md:left-0 max-md:right-0 max-md:top-14 max-md:grid max-md:grid-rows-[0fr] max-md:overflow-hidden max-md:bg-accent max-md:transition-[grid-template-rows_,padding] max-md:duration-300 max-md:~px-5/9 isolate z-10",
 					{
 						"max-md:grid-rows-[1fr] max-md:py-4 max-md:pb-6": open,
 					},
