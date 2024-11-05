@@ -10,13 +10,9 @@ export async function updateUserProfilePictureAction(
 	docId: string,
 	pathToRevalidate: string,
 ) {
-	try {
-		const newProflePicture = await uploadFile(picture, userId)
-		await updateDocumentById(docId, { pictureId: newProflePicture.$id })
-		revalidatePath(pathToRevalidate)
-	} catch (e: any) {
-		return { error: e.message }
-	}
+	const newProflePicture = await uploadFile(picture, userId)
+	await updateDocumentById(docId, { pictureId: newProflePicture.$id })
+	revalidatePath(pathToRevalidate)
 }
 
 export async function updateUserProfileAction(
@@ -24,10 +20,6 @@ export async function updateUserProfileAction(
 	data: Record<string, unknown>,
 	pathToRevalidate: string,
 ) {
-	try {
-		await updateDocumentById(docId, data)
-		revalidatePath(pathToRevalidate)
-	} catch (e: any) {
-		return { error: e.message }
-	}
+	await updateDocumentById(docId, data)
+	revalidatePath(pathToRevalidate)
 }

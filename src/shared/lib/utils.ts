@@ -13,3 +13,11 @@ export function cn(...inputs: ClassValue[]) {
 export function getFileUrl(fileId: string) {
 	return `https://cloud.appwrite.io/v1/storage/buckets/670043af0004023505d6/files/${fileId}/view?project=66fee7db00001dc0da3e`
 }
+
+export function getInitials(name: string) {
+	const nameSegments = name.split(" ")
+	const initials = nameSegments.map((segment) =>
+		segment.charAt(0).toUpperCase(),
+	)
+	return initials.join("")
+}

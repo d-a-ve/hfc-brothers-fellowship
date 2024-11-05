@@ -4,14 +4,20 @@ import { cn } from "@shared/lib/utils"
 
 import { AppLink } from "./link"
 
-export function Logo({ className }: { className?: string }) {
+export function Logo({
+	className,
+	horizontal,
+}: {
+	className?: string
+	horizontal?: true
+}) {
 	return (
 		<AppLink
 			href="/"
-			className={cn("flex w-fit items-center gap-3", className)}
-			variant={'none'}
+			className={cn("flex w-fit items-center gap-2", className)}
+			variant={"none"}
 		>
-			<span className="block ~size-12/16 rounded-full bg-white">
+			<span className="block rounded-full bg-white ~size-8/12">
 				<Image
 					src="/rccg-logo.png"
 					alt="RCCG Logo"
@@ -20,7 +26,11 @@ export function Logo({ className }: { className?: string }) {
 					height={200}
 				/>
 			</span>
-			<span className="flex flex-col items-start ~text-sm/xl font-medium">
+			<span
+				className={cn("flex flex-col items-start font-medium ~text-xs/lg", {
+					"flex-row gap-1": horizontal,
+				})}
+			>
 				<span>Happy Family</span>
 				<span>Chapel</span>
 			</span>

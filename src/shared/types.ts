@@ -1,3 +1,5 @@
+import { Models } from "node-appwrite"
+
 export type BrotherData = {
 	name: string
 	email: string
@@ -24,3 +26,6 @@ export type BrotherData = {
 		| "800"
 	department?: string
 }
+
+export interface BrothersDocument extends Models.Document, BrotherData {}
+export interface BrothersList extends Models.DocumentList<BrothersDocument> {}

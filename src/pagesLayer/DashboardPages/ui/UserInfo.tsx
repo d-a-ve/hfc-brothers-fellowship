@@ -18,6 +18,7 @@ export function UserInfo({
 				<UserProfileImage
 					docId={docId}
 					userId={user.userId}
+					userName={user.name}
 					pictureId={user.pictureId}
 					pathToRevalidate="/b"
 					className="basis-24"

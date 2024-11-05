@@ -6,7 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { z } from "zod"
 
-import { createSessionForEmailOnly, signUpWithEmailOnly } from "@shared/lib/api"
+import {
+	createSessionForEmailOnly,
+	isError,
+	signUpWithEmailOnly,
+} from "@shared/lib/api"
 import { cn } from "@shared/lib/utils"
 import { useToast } from "@shared/model"
 import { Button } from "@shared/ui/button"
@@ -73,11 +77,13 @@ export function SignInForm() {
 							try {
 								loadingTrue()
 								await createSessionForEmailOnly(userId, data.otp)
-							} catch (error: any) {
-								toast({
-									description: error.message,
-									variant: "destructive",
-								})
+							} catch (error: unknown) {
+								if (isError(error)) {
+									toast({
+										description: error.message,
+										variant: "destructive",
+									})
+								}
 							} finally {
 								loadingFalse()
 							}
@@ -92,11 +98,13 @@ export function SignInForm() {
 		try {
 			const account = await signUpWithEmailOnly(data.email)
 			router.push(`${pathName}?code-sent=1&id=${account.userId}`)
-		} catch (e: any) {
-			toast({
-				description: e.message,
-				variant: "destructive",
-			})
+		} catch (e: unknown) {
+			if (isError(e)) {
+				toast({
+					description: e.message,
+					variant: "destructive",
+				})
+			}
 		}
 	}
 

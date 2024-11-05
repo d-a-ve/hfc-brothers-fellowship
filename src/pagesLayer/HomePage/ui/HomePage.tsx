@@ -1,6 +1,7 @@
+import { Facebook } from "lucide-react"
+
 import { Button } from "@shared/ui/button"
 import { PaddingInlineContainer } from "@shared/ui/container"
-import { AppLink } from "@shared/ui/link"
 import LinkButton from "@shared/ui/link-button"
 import { Logo } from "@shared/ui/logo"
 
@@ -55,14 +56,13 @@ export function HomePage() {
 							challenges, and learn from God's word and one another.
 						</p>
 						<div className="pt-2">
-							<Button asChild className="w-full max-w-[280px]" size={"lg"}>
-								<AppLink
-									className="no-underline hover:no-underline"
-									href={"/register"}
-								>
-									Join Us Today!
-								</AppLink>
-							</Button>
+							<LinkButton
+								className="w-full max-w-[280px]"
+								size={"lg"}
+								href={"/register"}
+							>
+								Join Us Today!
+							</LinkButton>
 						</div>
 					</PaddingInlineContainer>
 				</section>
@@ -102,20 +102,84 @@ export function HomePage() {
 				</section>
 			</main>
 			<PaddingInlineContainer>
-				<footer className="space-y-5 pb-6 text-center ~pt-12/16">
-					<p>Brought to you by:</p>
-					<Logo className="mx-auto" />
-					<div className="space-y-2 ~text-sm/lg">
-						<p>
+				<footer className="grid gap-6 pb-6 ~pt-12/16 md:grid-cols-2">
+					<div className="space-y-3">
+						<p className="text-xs italic">Brought to you by:</p>
+						<Logo horizontal />
+						<p className="~text-sm/base">
 							No, 59 Ekhorutomwen Street, Newton Road, Ekosodin, Benin City.
 						</p>
-						<p>
-							Fellowship with us every sunday. We hold two services by 7:30am
-							and 9:00am
-						</p>
+						<ul className="space-y-2">
+							<li className="text-sm text-accent-foreground">
+								Our Social Media
+							</li>
+							<li>
+								<a
+									href="#"
+									className="inline-flex rounded p-1 duration-150 hover:bg-primary"
+								>
+									<Facebook size={20} />
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div>
+						<ul className="space-y-2">
+							<li className="text-sm text-accent-foreground">Our Services</li>
+							<li>
+								<span className="italic text-accent-foreground">Monday:</span>{" "}
+								Prayer Meeting - 5pm
+							</li>
+							<li>
+								<span className="italic text-accent-foreground">Tuesday:</span>{" "}
+								Diggin Deep - 5pm
+							</li>
+							<li>
+								<span className="italic text-accent-foreground">
+									Wednesday:
+								</span>{" "}
+								Youth Hour - 5pm
+							</li>
+							<li>
+								<span className="italic text-accent-foreground">Thursday:</span>{" "}
+								Faith Clinic - 5pm
+							</li>
+							<li>
+								<span className="italic text-accent-foreground">
+									3rd Friday:
+								</span>{" "}
+								Area Holy Ghost Vigil - 10pm
+							</li>
+							<li>
+								<span className="italic text-accent-foreground">
+									Last Friday:
+								</span>{" "}
+								Zonal Holy Ghost Vigil - 10pm
+							</li>
+							<li>
+								<ul className="space-y-2">
+									<li>
+										<span className="italic text-accent-foreground">
+											Sunday:
+										</span>{" "}
+										2 services
+									</li>
+									<li className="pl-">1st Service - 7:30am</li>
+									<li className="pl-">2nd Service - 9:00am</li>
+								</ul>
+							</li>
+						</ul>
 					</div>
 				</footer>
 			</PaddingInlineContainer>
+			<div className="bg-primary/50 py-3">
+				<PaddingInlineContainer>
+					<p className="text-center">
+						Jesus Christ is the same yesterday, today, and forever -{" "}
+						<span className="italic">Heb 13:8</span>
+					</p>
+				</PaddingInlineContainer>
+			</div>
 		</div>
 	)
 }

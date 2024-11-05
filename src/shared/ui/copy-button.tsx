@@ -30,7 +30,7 @@ export default function CopyButton({
 			onClick={handleCopy}
 			className="relative"
 		>
-			<Copy size={20} />
+			<Copy className="size-4 lg:size-5" />
 			<span
 				className={cn(
 					"absolute -bottom-6 left-1/2 -translate-x-1/2 rounded-lg opacity-0 transition-[opacity]",

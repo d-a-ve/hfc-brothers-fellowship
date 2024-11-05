@@ -1,7 +1,7 @@
 "use server"
 
 import { cookies } from "next/headers"
-import { Account, Client, Databases, Storage } from "node-appwrite"
+import { Account, Client, Databases, Storage, Teams } from "node-appwrite"
 
 import config from "../config"
 
@@ -28,6 +28,9 @@ export async function createSessionClient() {
 		get db() {
 			return new Databases(client)
 		},
+		get teams() {
+			return new Teams(client)
+		},
 	}
 }
 
@@ -46,6 +49,9 @@ export async function createAdminClient() {
 		},
 		get db() {
 			return new Databases(client)
+		},
+		get teams() {
+			return new Teams(client)
 		},
 	}
 }

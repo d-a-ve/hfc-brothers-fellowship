@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 
 import { Checkbox } from "@/shared/ui/checkbox"
@@ -13,6 +14,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 
+import { isError } from "@shared/lib/api"
 import { cn } from "@shared/lib/utils"
 import { useToast } from "@shared/model"
 import { BrotherData } from "@shared/types"
@@ -27,6 +29,7 @@ import {
 	FormMessage,
 } from "@shared/ui/form"
 import { Input } from "@shared/ui/input"
+import { Spinner } from "@shared/ui/spinner"
 
 import { updateUserProfileAction } from "../model/actions"
 
@@ -91,11 +94,16 @@ export function UserProfileForm({
 	user,
 	docId,
 	pathToRevalidate,
+	afterSubmitCallback,
+	mode = "user",
 }: {
 	user: BrotherData
 	docId: string
 	pathToRevalidate: string
+	afterSubmitCallback?: (stopLoading: () => void) => void
+	mode?: "admin" | "user"
 }) {
+	const [isLoading, setIsLoading] = useState(false)
 	const userProfileForm = useForm<ProfileForm>({
 		resolver: zodResolver(profileFormSchema),
 		values: {
@@ -105,9 +113,8 @@ export function UserProfileForm({
 	})
 	const { toast } = useToast()
 
-	const isLoading = userProfileForm.formState.isSubmitting
-
 	const onSubmit = async (data: ProfileForm) => {
+		setIsLoading(true)
 		const { arePhoneAndWhatsappNumbersTheSame, ...rest } = data
 		const dataToSend: {
 			[k: string]: string
@@ -121,24 +128,33 @@ export function UserProfileForm({
 
 			return total
 		}, {})
-		console.log(newData)
 
-		const updatedUser = await updateUserProfileAction(
-			docId,
-			newData,
-			pathToRevalidate,
-		)
-		if (updatedUser && updatedUser.error) {
+		try {
+			await updateUserProfileAction(docId, newData, pathToRevalidate)
+
 			toast({
-				title: "Your profile failed to update.",
-				description: updatedUser.error,
-				variant: "destructive",
+				description:
+					mode === "admin"
+						? "Brother profile updated successfully."
+						: "Your profile has been updated successfully.",
 			})
-		}
 
-		toast({
-			description: "Your profile has been updated successfully.",
-		})
+			afterSubmitCallback
+				? afterSubmitCallback(() => setIsLoading(false))
+				: setIsLoading(false)
+		} catch (e: unknown) {
+			if (isError(e)) {
+				setIsLoading(false)
+				toast({
+					title:
+						mode === "admin"
+							? "Brother profile failed to update."
+							: "Your profile failed to update.",
+					description: e.message,
+					variant: "destructive",
+				})
+			}
+		}
 	}
 
 	return (
@@ -428,7 +444,7 @@ export function UserProfileForm({
 								},
 							)}
 						>
-							Loading...
+							<Spinner />
 						</span>
 					</Button>
 				</div>

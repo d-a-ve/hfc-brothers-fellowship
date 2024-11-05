@@ -1,15 +1,17 @@
 "use server"
 
+import { cache } from "react"
+
 import { cookies } from "next/headers"
 import { ID } from "node-appwrite"
 
 import config from "../config"
 import { createAdminClient, createSessionClient } from "./client"
 
-export async function getLoggedInUser() {
+export const getLoggedInUser = cache(async () => {
 	const { account } = await createSessionClient()
 	return await account.get()
-}
+})
 
 export async function signUpWithEmailOnly(email: string) {
 	const { account } = await createAdminClient()
@@ -21,14 +23,14 @@ export async function createSessionForEmailOnly(
 	secret: string,
 ) {
 	const { account } = await createAdminClient()
-	const session = await account.createSession(userId, secret);
+	const session = await account.createSession(userId, secret)
 	cookies().set(config.COOKIE_SESSION_ID, session.secret, {
 		path: "/",
 		httpOnly: true,
 		sameSite: "strict",
 		secure: config.ENV === "production" ? true : false,
 	})
-  return session;
+	return session
 }
 
 export async function signOut() {

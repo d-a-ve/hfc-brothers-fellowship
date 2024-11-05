@@ -3,11 +3,10 @@ import type { ReactNode } from "react"
 
 import "@app/globals.css"
 
-import { MaxContainer, PaddingInlineContainer } from "@shared/ui/container"
+import { MaxContainer } from "@shared/ui/container"
+import { Header } from "@shared/ui/header"
 import { ProgressBar, ProgressBarProvider } from "@shared/ui/link"
-import { Logo } from "@shared/ui/logo"
 import { Toaster } from "@shared/ui/toaster"
-import { AdminGoToPageButton, AdminWelcomeMsg } from "@entities/admin"
 
 export const metadata: Metadata = {
 	title: "HFC Brothers' Fellowship",
@@ -24,13 +23,7 @@ export default function RootLayout({
 				<ProgressBarProvider>
 					<ProgressBar />
 					<MaxContainer className="py-6">
-						<header className="mb-6 border-b-2 pb-6">
-							<PaddingInlineContainer className="flex items-center justify-between gap-4">
-								<Logo />
-								<AdminWelcomeMsg />
-								<AdminGoToPageButton />
-							</PaddingInlineContainer>
-						</header>
+						<Header />
 						{children}
 						<Toaster />
 					</MaxContainer>

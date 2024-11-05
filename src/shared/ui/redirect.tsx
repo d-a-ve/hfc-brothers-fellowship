@@ -1,8 +1,11 @@
 "use client"
 
+import { useLayoutEffect } from "react"
+
 import { useRouter } from "next/navigation"
 
 import { useProgress } from "./link"
+import { PageLoader } from "./page-loader"
 
 export function Redirect({
 	href,
@@ -14,12 +17,14 @@ export function Redirect({
 	const startProgress = useProgress()
 	const router = useRouter()
 
-	startProgress()
-	if (replace) {
-		router.replace(href)
-	} else {
-		router.push(href)
-	}
+	useLayoutEffect(() => {
+		startProgress()
+		if (replace) {
+			router.replace(href)
+		} else {
+			router.push(href)
+		}
+	}, [])
 
-	return <div>Redirecting...</div>
+	return <PageLoader />
 }

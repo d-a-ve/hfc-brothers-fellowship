@@ -18,6 +18,7 @@ import { z } from "zod"
 import {
 	createDocument,
 	createSessionForEmailOnly,
+	isError,
 	signUpWithEmailOnly,
 	updateLoggedInUserName,
 	uploadFile,
@@ -173,11 +174,13 @@ export function RegisterForm() {
 							},
 							userId,
 						)
-					} catch (error: any) {
-						toast({
-							description: error.message,
-							variant: "destructive",
-						})
+					} catch (error: unknown) {
+						if (isError(error)) {
+							toast({
+								description: error.message,
+								variant: "destructive",
+							})
+						}
 					} finally {
 						loadingFalse()
 					}
@@ -196,11 +199,13 @@ export function RegisterForm() {
 		try {
 			const account = await signUpWithEmailOnly(data.email)
 			router.push(`${pathName}?code-sent=1&id=${account.userId}`)
-		} catch (error: any) {
-			toast({
-				description: error.message,
-				variant: "destructive",
-			})
+		} catch (error: unknown) {
+			if (isError(error)) {
+				toast({
+					description: error.message,
+					variant: "destructive",
+				})
+			}
 		}
 	}
 

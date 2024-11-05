@@ -3,26 +3,28 @@
 import { Camera } from "lucide-react"
 import { ChangeEvent, useState } from "react"
 
-import Image from "next/image"
-
-import { cn, getFileUrl } from "@shared/lib/utils"
+import { isError } from "@shared/lib/api"
+import { cn, getFileUrl, getInitials } from "@shared/lib/utils"
 import { useToast } from "@shared/model"
+import { Avatar } from "@shared/ui/avatar"
 import { Spinner } from "@shared/ui/spinner"
 
 import { updateUserProfilePictureAction } from "../model/actions"
 
 export function UserProfileImage({
 	userId,
+	userName,
 	docId,
 	pictureId,
 	pathToRevalidate,
-  className
+	className,
 }: {
 	userId: string
+	userName: string
 	docId: string
 	pictureId: string
-	pathToRevalidate: string,
-  className?: string
+	pathToRevalidate: string
+	className?: string
 }) {
 	const [isLoading, setIsLoading] = useState(false)
 	const { toast } = useToast()
@@ -33,40 +35,37 @@ export function UserProfileImage({
 			const file = e.target.files[0]
 			const formData = new FormData()
 			formData.set("picture", file)
-
-			const result = await updateUserProfilePictureAction(
-				formData,
-				userId,
-				docId,
-				pathToRevalidate,
-			)
-
-			if (result && result.error) {
+			try {
+				await updateUserProfilePictureAction(
+					formData,
+					userId,
+					docId,
+					pathToRevalidate,
+				)
 				setIsLoading(false)
 				toast({
-					title: "Profile picture update failed.",
-					description: result.error,
-					variant: "destructive",
+					description: "Profile picture updated successfully.",
 				})
+			} catch (e: unknown) {
+				if (isError(e)) {
+					setIsLoading(false)
+					toast({
+						title: "Profile picture update failed.",
+						description: e.message,
+						variant: "destructive",
+					})
+				}
 			}
-
-			setIsLoading(false)
-			toast({
-				description: "Profile picture updated successfully.",
-			})
 		}
 	}
 	return (
 		<div className={cn("relative isolate", className)}>
-			<div className="aspect-square shrink-0 overflow-hidden rounded-full border-2 border-primary">
-				<Image
-					src={getFileUrl(pictureId)}
-					alt="Image"
-					width={200}
-					height={200}
-					className="h-full w-full object-cover object-center"
-				/>
-			</div>
+			<Avatar
+				src={getFileUrl(pictureId)}
+				alt="Image"
+				className="border-2 border-primary"
+				fallbackText={getInitials(userName)}
+			/>
 			<div className="xs:size-7 absolute bottom-0 right-0 z-10 inline-flex size-6 cursor-pointer items-center justify-center rounded-full bg-primary">
 				<input
 					type="file"
