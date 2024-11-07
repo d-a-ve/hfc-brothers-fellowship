@@ -12,8 +12,12 @@ const bucketId = checkEnvKey("NEXT_APPWRITE_BUCKET_ID")
 const dbId = checkEnvKey("NEXT_APPWRITE_DB_ID")
 const broColId = checkEnvKey("NEXT_APPWRITE_BRO_COL_ID")
 const apiKey = checkEnvKey("NEXT_APPWRITE_KEY")
-const env = process.env.NODE_ENV;
-const cookieSessionId = 'my-custom-session'
+const env = process.env.NODE_ENV
+const baseUrl =
+	env === "production"
+		? "https://hfc-brothers.vercel.app"
+		: "http://localhost:3000"
+const cookieSessionId = "my-custom-session"
 
 const config = {
 	API_ENDPOINT: apiEndpoint,
@@ -24,6 +28,7 @@ const config = {
 	BRO_COL_ID: broColId,
 	COOKIE_SESSION_ID: cookieSessionId,
 	ENV: env,
+	BASE_URL: baseUrl,
 }
 
 export default config

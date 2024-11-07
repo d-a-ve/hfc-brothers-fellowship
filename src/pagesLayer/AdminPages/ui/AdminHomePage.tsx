@@ -22,6 +22,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@shared/ui/select"
+import { AdminAddTeamMemberDialog } from "@entities/admin"
 
 export async function AdminHomePage() {
 	const user = await getLoggedInUser().catch((e) => console.log(e.message))
@@ -132,7 +133,7 @@ export async function AdminHomePage() {
 										</div>
 										<AdminBrotherListItemContent
 											trigger={
-												<Button size={"sm"} className="max-md:col-span-2">
+												<Button variant={'outline'} size={"sm"} className="max-md:col-span-2">
 													View
 												</Button>
 											}
@@ -144,6 +145,7 @@ export async function AdminHomePage() {
 						</CardContent>
 					</Card>
 				</section>
+				<AdminAddTeamMemberDialog />
 			</PaddingInlineContainer>
 		</MaxContainer>
 	)

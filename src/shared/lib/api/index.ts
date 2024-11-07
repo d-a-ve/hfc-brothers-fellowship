@@ -16,8 +16,9 @@ export {
 } from "./db"
 export { getFile, getFileUrlForDownload, uploadFile } from "./storage"
 export {
-	addMembersToAdminTeam,
+	addAdmin,
 	createAdminTeam,
 	getAdminTeamMember,
+	updateAdminMembershipStatus
 } from "./teams"
 export { isError } from "./utils"
